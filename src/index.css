@@ -1,0 +1,121 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:         #0a0c0b;
+  --surface-0:  #111413;
+  --surface-1:  #191c1a;
+  --surface-2:  #212524;
+  --surface-3:  #2a2e2c;
+  --border:     #2e3330;
+  --border-hi:  #404844;
+
+  --amber:      #f59e0b;
+  --amber-dim:  #b45309;
+  --amber-glow: rgba(245, 158, 11, 0.12);
+  --amber-ring: rgba(245, 158, 11, 0.35);
+
+  --green:      #22c55e;
+  --green-glow: rgba(34, 197, 94, 0.12);
+
+  --red:        #ef4444;
+  --red-glow:   rgba(239, 68, 68, 0.12);
+
+  --text:       #dde8e2;
+  --text-muted: #7a8a82;
+  --text-dim:   #404d47;
+
+  --radius-sm:  6px;
+  --radius:     10px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+
+  --tap-min:    52px;
+
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
+  color-scheme: dark;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* Safe area insets for notched phones */
+.safe-top    { padding-top: env(safe-area-inset-top, 0px); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 16px); }
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+input[type="number"],
+input[type="text"] {
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.1rem;
+  padding: 14px 16px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s;
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input:focus {
+  border-color: var(--amber);
+}
+
+input::placeholder {
+  color: var(--text-dim);
+}
+
+/* Scrollable content area */
+.scroll-area {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Utility classes */
+.flex       { display: flex; }
+.flex-col   { flex-direction: column; }
+.items-c    { align-items: center; }
+.justify-c  { justify-content: center; }
+.justify-sb { justify-content: space-between; }
+.gap-2      { gap: 8px; }
+.gap-3      { gap: 12px; }
+.gap-4      { gap: 16px; }
+.w-full     { width: 100%; }
+.font-mono  { font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; }
