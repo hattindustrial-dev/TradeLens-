@@ -1,10 +1,11 @@
 import { useReducer } from 'react'
 import Header from './components/Header.jsx'
+import HomeScreen from './components/HomeScreen.jsx'
 import WeldDecoder from './components/WeldDecoder.jsx'
+import MechDecoder from './components/MechDecoder.jsx'
 
-const STEPS = 5 // 0..4 wizard + 5 result
-
-const initialState = {
+// ── Weld decoder state ────────────────────────────────────────────────────────
+const weldInitial = {
   step: 0,
   standard: 'CWB',
   unit: 'mm',
@@ -20,7 +21,7 @@ const initialState = {
   finish: 'none',
 }
 
-function reducer(state, action) {
+function weldReducer(state, action) {
   switch (action.type) {
     case 'SET_STANDARD':
       return { ...state, standard: action.payload, unit: action.payload === 'CWB' ? 'mm' : 'in' }
@@ -46,23 +47,32 @@ function reducer(state, action) {
     case 'SET_FINISH':
       return { ...state, finish: action.payload }
     case 'NEXT':
-      return { ...state, step: Math.min(state.step + 1, STEPS) }
+      return { ...state, step: Math.min(state.step + 1, 5) }
     case 'PREV':
       return { ...state, step: Math.max(state.step - 1, 0) }
     case 'RESET':
-      return { ...initialState, standard: state.standard, unit: state.unit }
+      return { ...weldInitial, standard: state.standard, unit: state.unit }
     default:
       return state
   }
 }
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [mode, setMode] = useReducer((_, m) => m, null)
+  const [weldState, weldDispatch] = useReducer(weldReducer, weldInitial)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <Header standard={state.standard} dispatch={dispatch} />
-      <WeldDecoder state={state} dispatch={dispatch} />
+      <Header
+        standard={weldState.standard}
+        mode={mode}
+        onBack={() => setMode(null)}
+        dispatch={weldDispatch}
+      />
+
+      {mode === null && <HomeScreen onSelect={setMode} />}
+      {mode === 'weld' && <WeldDecoder state={weldState} dispatch={weldDispatch} />}
+      {mode === 'mech' && <MechDecoder />}
     </div>
   )
 }
