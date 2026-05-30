@@ -1,8 +1,24 @@
 const ACTIONS = [
   {
+    id: 'camera',
+    label: 'Drawing Decode',
+    desc: 'Photo a drawing or part — Claude will identify it, explain what it looks like in hand, and tell you where it goes.',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect x="2" y="7" width="24" height="18" rx="3" stroke="currentColor" strokeWidth="2"/>
+        <circle cx="14" cy="16" r="5" stroke="currentColor" strokeWidth="2"/>
+        <circle cx="14" cy="16" r="2" fill="currentColor" opacity="0.4"/>
+        <path d="M9 7 L10.5 4 H17.5 L19 7" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
+        <circle cx="22" cy="11" r="1.5" fill="currentColor"/>
+      </svg>
+    ),
+    color: '#f59e0b',
+    badge: 'AI',
+  },
+  {
     id: 'lookup',
     label: 'Part Lookup',
-    desc: 'Enter a reference number from the drawing or describe a part to identify it, see what it looks like in your hand, and get orientation and installation notes.',
+    desc: 'Enter a reference number or describe a part to identify it, see what it looks like in your hand, and get orientation and installation notes.',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
         <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="2.2"/>
@@ -11,7 +27,7 @@ const ACTIONS = [
         <line x1="12" y1="9" x2="12" y2="15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
       </svg>
     ),
-    color: '#f59e0b',
+    color: '#818cf8',
   },
   {
     id: 'rebuild',
@@ -82,12 +98,31 @@ export default function ActionStep({ action, dispatch }) {
 
               <div style={{ flex: 1 }}>
                 <div style={{
-                  fontSize: '1rem',
-                  fontWeight: 700,
-                  color: active ? a.color : '#dde8e2',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
                   marginBottom: 6,
                 }}>
-                  {a.label}
+                  <span style={{
+                    fontSize: '1rem',
+                    fontWeight: 700,
+                    color: active ? a.color : '#dde8e2',
+                  }}>
+                    {a.label}
+                  </span>
+                  {a.badge && (
+                    <span style={{
+                      fontSize: '0.58rem',
+                      fontWeight: 800,
+                      letterSpacing: '0.08em',
+                      color: '#f59e0b',
+                      background: 'rgba(245,158,11,0.15)',
+                      padding: '2px 6px',
+                      borderRadius: 4,
+                    }}>
+                      {a.badge}
+                    </span>
+                  )}
                 </div>
                 <div style={{
                   fontSize: '0.76rem',

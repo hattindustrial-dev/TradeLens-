@@ -1,0 +1,8 @@
+name = "tradelens-api"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://tradelens.pages.dev"
+
+# Set the real key with: wrangler secret put CLAUDE_API_KEY

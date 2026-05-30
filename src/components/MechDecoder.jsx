@@ -5,6 +5,7 @@ import ActionStep from './mech/ActionStep.jsx'
 import PartLookup from './mech/PartLookup.jsx'
 import PartDetail from './mech/PartDetail.jsx'
 import RebuildGuide from './mech/RebuildGuide.jsx'
+import CameraDecode from './mech/CameraDecode.jsx'
 import { PUMP_TYPES } from '../data/pumpData.js'
 
 const STEPS = {
@@ -14,6 +15,7 @@ const STEPS = {
   LOOKUP: 'lookup',
   PART_DETAIL: 'part_detail',
   REBUILD: 'rebuild',
+  CAMERA: 'camera',
 }
 
 const initial = {
@@ -36,12 +38,14 @@ function reducer(state, action) {
     }
     case 'SET_VARIANT':
       return { ...state, variant: action.payload, step: STEPS.ACTION }
-    case 'SET_ACTION':
+    case 'SET_ACTION': {
+      const stepMap = { lookup: STEPS.LOOKUP, rebuild: STEPS.REBUILD, camera: STEPS.CAMERA }
       return {
         ...state,
         action: action.payload,
-        step: action.payload === 'lookup' ? STEPS.LOOKUP : STEPS.REBUILD,
+        step: stepMap[action.payload] ?? STEPS.LOOKUP,
       }
+    }
     case 'SELECT_PART':
       return { ...state, selectedPart: action.payload, step: STEPS.PART_DETAIL }
     case 'BACK_FROM_PART':
@@ -52,7 +56,7 @@ function reducer(state, action) {
         const pt = PUMP_TYPES.find(p => p.id === state.pumpType)
         return { ...state, step: pt?.hasVariants ? STEPS.VARIANT : STEPS.PUMP_TYPE, variant: null }
       }
-      if (state.step === STEPS.LOOKUP || state.step === STEPS.REBUILD) {
+      if (state.step === STEPS.LOOKUP || state.step === STEPS.REBUILD || state.step === STEPS.CAMERA) {
         return { ...state, step: STEPS.ACTION, action: null }
       }
       if (state.step === STEPS.PART_DETAIL) {
@@ -95,7 +99,7 @@ export default function MechDecoder() {
   const isWizardStep = WIZARD_STEPS.includes(state.step)
   const stepNum = getStepNumber(state.step, state.pumpType)
 
-  const isFullScreen = state.step === STEPS.REBUILD
+  const isFullScreen = state.step === STEPS.REBUILD || state.step === STEPS.CAMERA
 
   return (
     <div style={{
@@ -177,6 +181,9 @@ export default function MechDecoder() {
         )}
         {state.step === STEPS.REBUILD && (
           <RebuildGuide pumpType={state.pumpType} variant={state.variant} />
+        )}
+        {state.step === STEPS.CAMERA && (
+          <CameraDecode onBack={() => dispatch({ type: 'BACK' })} />
         )}
       </div>
 

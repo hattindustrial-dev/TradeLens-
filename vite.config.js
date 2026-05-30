@@ -3,12 +3,15 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  define: {
+    // VITE_WORKER_URL can be set in .env.local for local dev pointing at a local wrangler dev server
+  },
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'TradeLens — Weld Decoder',
+        name: 'TradeLens — Field Reference',
         short_name: 'TradeLens',
         description: 'Mobile weld symbol decoder for tradespeople — CWB/CSA & AWS',
         theme_color: '#0a0c0b',
